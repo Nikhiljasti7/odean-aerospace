@@ -1,0 +1,16 @@
+{
+  "name": "Odean Aerospace",
+  "short_name": "OdeanAero",
+  "description": "Supersonic flight, satellite technology, and advanced defense aerospace systems.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0a1a2f",
+  "theme_color": "#00bfff",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ]
+}
