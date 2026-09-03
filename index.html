@@ -80,6 +80,45 @@
       line-height:1.6;
     }
 
+    /* ===== Telemetry & HUD Section ===== */
+    .telemetry-section {
+      padding: 90px 40px; background: linear-gradient(180deg, #0a1a2f 0%, #061120 50%, #0a1a2f 100%);
+      text-align: center; border-top: 1px solid rgba(0,191,255,0.12); border-bottom: 1px solid rgba(0,191,255,0.12);
+    }
+    .telemetry-container { max-width: 1200px; margin: 0 auto; }
+    .hud-tag {
+      display: inline-block; padding: 5px 16px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 2px;
+      color: #00ffff; background: rgba(0,191,255,0.1); border: 1px solid rgba(0,191,255,0.3);
+      margin-bottom: 15px; box-shadow: 0 0 15px rgba(0,191,255,0.2);
+    }
+    .telemetry-section h2 { font-size: 2.4rem; color: #fff; margin-bottom: 15px; font-weight: 700; }
+    .telemetry-section > p { font-size: 1.15rem; color: #b0c4de; max-width: 750px; margin: 0 auto 50px; }
+    .telemetry-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-top: 40px; }
+    .stat-card {
+      background: rgba(15, 35, 63, 0.7); backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 191, 255, 0.2); border-radius: 12px;
+      padding: 30px 20px; transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .stat-card::before {
+      content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+      background: linear-gradient(90deg, transparent, #00bfff, transparent);
+    }
+    .stat-card:hover {
+      transform: translateY(-6px); border-color: rgba(0, 191, 255, 0.6);
+      box-shadow: 0 10px 30px rgba(0, 191, 255, 0.25);
+    }
+    .stat-num {
+      font-size: 2.8rem; font-weight: 800; color: #00ffff;
+      text-shadow: 0 0 20px rgba(0,255,255,0.5); margin-bottom: 10px; font-variant-numeric: tabular-nums;
+    }
+    .stat-label { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 8px; }
+    .stat-desc { font-size: 0.85rem; color: #8faec8; line-height: 1.5; }
+
+    @media(max-width: 1024px) { .telemetry-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media(max-width: 600px) { .telemetry-grid { grid-template-columns: 1fr; } }
+
     /* ===== Feature Sections ===== */
     .feature { padding:90px 40px; text-align:center; background:#0a1a2f; color:#fff; max-width:1200px; margin:0 auto; }
     .feature h2 {
@@ -194,7 +233,7 @@
   <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">Odean Aerospace</div>
   <nav>
     <ul>
-      <li><a href="#projects">Projects</a></li>
+      <li><a href="#projects">Projects</a></li>`n      <li><a href="#telemetry">Telemetry</a></li>
       <li><a href="#domains">Domains</a></li>
       <li><a href="#about">About Us</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -260,6 +299,37 @@
 <section class="feature" id="projects">
   <h2>Projects &amp; Products</h2>
   <p>From commercial supersonic aircraft to defense missiles, our projects lead in speed, efficiency, and cutting-edge aerospace technology.</p>
+</section>
+
+<!-- Telemetry Section -->
+<section class="telemetry-section" id="telemetry">
+  <div class="telemetry-container">
+    <div class="hud-tag">LIVE TELEMETRY &bull; STATUS: OPTIMAL</div>
+    <h2>Aerospace Performance Metrics</h2>
+    <p>Validated engineering thresholds across supersonic defense and orbital insertion programs.</p>
+    <div class="telemetry-grid">
+      <div class="stat-card">
+        <div class="stat-num" data-target="3.8" data-decimal="1" data-prefix="Mach ">Mach 0.0</div>
+        <div class="stat-label">Maximum Velocity</div>
+        <div class="stat-desc">Sustained supercruise across atmospheric operational corridors.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" data-target="450" data-suffix="+">0</div>
+        <div class="stat-label">Orbital Payloads</div>
+        <div class="stat-desc">Commercial satellites and precision space instruments deployed.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" data-target="99.8" data-decimal="1" data-suffix="%">0.0%</div>
+        <div class="stat-label">Interception Accuracy</div>
+        <div class="stat-desc">Next-gen hypersonic kinetic tracking and mitigation algorithms.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" data-target="12500" data-suffix="+">0</div>
+        <div class="stat-label">Validated Flight Hours</div>
+        <div class="stat-desc">Autonomous AI-stabilized supersonic test cycles logged.</div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- Domains Section -->
@@ -352,6 +422,42 @@
       }
     });
   });
+
+  // Animated Telemetry Counters
+  const statNumbers = document.querySelectorAll(".stat-num");
+  let animatedStats = false;
+
+  function animateCounters() {
+    const telemetrySec = document.getElementById("telemetry");
+    if (!telemetrySec || animatedStats) return;
+    const rect = telemetrySec.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.85) {
+      animatedStats = true;
+      statNumbers.forEach(stat => {
+        const target = parseFloat(stat.dataset.target);
+        const prefix = stat.dataset.prefix || "";
+        const suffix = stat.dataset.suffix || "";
+        const isDecimal = stat.dataset.decimal === "1";
+        const duration = 2000;
+        const start = performance.now();
+
+        function step(timestamp) {
+          const progress = Math.min((timestamp - start) / duration, 1);
+          const easeOut = 1 - Math.pow(1 - progress, 3);
+          const current = (easeOut * target);
+          stat.textContent = prefix + (isDecimal ? current.toFixed(1) : Math.floor(current).toLocaleString()) + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            stat.textContent = prefix + (isDecimal ? target.toFixed(1) : target.toLocaleString()) + suffix;
+          }
+        }
+        requestAnimationFrame(step);
+      });
+    }
+  }
+  window.addEventListener("scroll", animateCounters);
+  window.addEventListener("load", animateCounters);
 
   // Fade-in domains
   const domainItems = document.querySelectorAll(".domain-item");
