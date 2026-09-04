@@ -1,0 +1,415 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Odean Aerospace - Engineering the future of supersonic flight, advanced aerodynamics, satellite technology, and defense missile systems.">
+  <title>Odean Aerospace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===== General Reset & Typography ===== */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Poppins', sans-serif; overflow-x:hidden; background:#0a1a2f; color:#fff; }
+
+    /* ===== Header ===== */
+    header {
+      position: fixed; top:0; width:100%;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:18px 60px;
+      background: rgba(10,26,47,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 191, 255, 0.15);
+      z-index:1000;
+      transition: all 0.3s ease;
+    }
+    header .logo {
+      font-size:1.8rem; color:#00bfff; font-weight:700;
+      letter-spacing: 1px;
+      text-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff;
+      animation: glow 2.5s ease-in-out infinite alternate;
+      cursor: pointer;
+    }
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px rgba(0,191,255,0.7), 0 0 20px rgba(0,191,255,0.4); }
+      50% { text-shadow: 0 0 25px rgba(0,191,255,0.9), 0 0 45px rgba(0,191,255,0.6); }
+      100% { text-shadow: 0 0 15px rgba(0,191,255,0.7), 0 0 30px rgba(0,191,255,0.5); }
+    }
+    nav ul { list-style:none; display:flex; gap:30px; align-items:center; }
+    nav a { text-decoration:none; color:#fff; transition:0.3s; font-weight:500; font-size:0.95rem; }
+    nav a:hover { color:#00bfff; text-shadow: 0 0 8px rgba(0,191,255,0.6); }
+    .search-bar input {
+      padding:7px 14px; border-radius:20px; border:1px solid rgba(0,191,255,0.3);
+      background:#132642; color:#fff; outline:none; font-family:inherit; font-size:0.85rem;
+      transition: all 0.3s ease;
+    }
+    .search-bar input:focus { border-color:#00bfff; box-shadow:0 0 10px rgba(0,191,255,0.4); }
+
+    /* ===== Video Sections ===== */
+    .fade-section {
+      position:relative; height:100vh; width:100%; overflow:hidden;
+      opacity:0; transition:opacity 1.2s ease-in-out;
+      display:flex; justify-content:center; align-items:center;
+    }
+    .fade-section.active { opacity:1; }
+    .fade-section video {
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      object-fit:cover; z-index:0;
+    }
+    .fade-section::before {
+      content:""; position:absolute; top:0; left:0; width:100%; height:100%;
+      background: radial-gradient(circle at center, rgba(10,26,47,0.35) 0%, rgba(10,26,47,0.7) 100%);
+      z-index:1;
+    }
+    .overlay {
+      position:relative; text-align:center; z-index:2; padding:20px;
+      max-width:850px;
+    }
+    .overlay h1 {
+      font-size:3.2rem; margin-bottom:1rem; color:#fff; font-weight:700;
+      text-shadow:2px 2px 20px rgba(0,0,0,0.8);
+      letter-spacing:0.5px;
+    }
+    .overlay p {
+      font-size:1.25rem; color:#e6f1ff;
+      text-shadow:1px 1px 12px rgba(0,0,0,0.8);
+      line-height:1.6;
+    }
+
+    /* ===== Feature Sections ===== */
+    .feature { padding:90px 40px; text-align:center; background:#0a1a2f; color:#fff; max-width:1200px; margin:0 auto; }
+    .feature h2 {
+      font-size:2.4rem; margin-bottom:18px; color:#fff; font-weight:700;
+      position:relative; display:inline-block;
+    }
+    .feature h2::after {
+      content:''; display:block; width:60px; height:3px; background:#00bfff;
+      margin:12px auto 0; border-radius:2px; box-shadow: 0 0 10px #00bfff;
+    }
+    .feature > p { font-size:1.15rem; color:#b0c4de; max-width:800px; margin:0 auto; line-height:1.7; }
+
+    /* ===== Domains Grid ===== */
+    .domains-grid {
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:30px;
+      margin-top:50px;
+    }
+    .domain-item {
+      background:#0f233f; padding:20px; border-radius:12px;
+      border: 1px solid rgba(0,191,255,0.15);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+      opacity:0; transform:translateY(30px);
+      text-align:center; position:relative; cursor:pointer;
+    }
+    .domain-item.show { opacity:1; transform:translateY(0); }
+    .domain-item:hover {
+      transform:translateY(-8px);
+      box-shadow:0 12px 35px rgba(0,191,255,0.35);
+      border-color: rgba(0,191,255,0.5);
+    }
+    .domain-item img {
+      width:100%; height:180px; object-fit:cover; border-radius:8px;
+      margin-bottom:15px; cursor:pointer; transition: transform 0.3s ease;
+    }
+    .domain-item:hover img { transform: scale(1.02); }
+    .domain-item h3 { font-size:1.35rem; margin-bottom:10px; color:#fff; font-weight:600; }
+    .domain-item p { font-size:0.95rem; color:#b8c7dc; line-height:1.5; }
+
+    @media(max-width:1024px){
+      .domains-grid{ grid-template-columns:repeat(2,1fr); gap:25px; }
+      header{ padding:15px 30px; }
+    }
+    @media(max-width:768px){
+      header{ padding:12px 20px; flex-wrap:wrap; gap:10px; }
+      header .logo{ font-size:1.4rem; }
+      nav ul{ gap:15px; }
+      .search-bar{ width:100%; order:3; }
+      .search-bar input{ width:100%; }
+      .overlay h1{ font-size:2.1rem; }
+      .overlay p{ font-size:1rem; }
+      .domains-grid{ grid-template-columns:1fr; }
+      .feature{ padding:60px 20px; }
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      background:#071221; color:#b0c4de; padding:50px 20px 30px;
+      text-align:center; font-size:0.95rem; border-top:1px solid rgba(0,191,255,0.15);
+    }
+    footer h2 { color:#fff; font-size:1.8rem; margin-bottom:15px; }
+    footer p { margin-bottom:8px; }
+    footer a { color:#00bfff; text-decoration:none; transition:0.2s; }
+    footer a:hover { text-decoration:underline; text-shadow:0 0 8px rgba(0,191,255,0.5); }
+    footer #social { margin:20px 0; }
+    footer .copyright { margin-top:25px; font-size:0.85rem; color:#788ea8; }
+
+    /* ===== Cookie Consent ===== */
+    #cookie-consent {
+      position:fixed; bottom:25px; left:50%; transform:translateX(-50%);
+      background:#0f233f; padding:16px 28px; border-radius:10px;
+      border: 1px solid rgba(0,191,255,0.3);
+      box-shadow:0 8px 30px rgba(0,0,0,0.5);
+      display:flex; align-items:center; gap:18px; z-index:2000;
+      max-width:90%; opacity:0; pointer-events:none; transition:opacity 0.4s ease, transform 0.4s ease;
+    }
+    #cookie-consent.show { opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0); }
+    #cookie-consent p { margin:0; font-size:0.95rem; color:#e0e8f5; }
+    #cookie-consent button {
+      padding:8px 18px; border:none; border-radius:6px; font-weight:600;
+      font-family:inherit; font-size:0.9rem; color:#fff; cursor:pointer; transition:0.25s;
+    }
+    #cookie-consent button.accept { background:#00bfff; }
+    #cookie-consent button.accept:hover { background:#0091d6; box-shadow:0 0 10px rgba(0,191,255,0.5); }
+    #cookie-consent button.reject { background:#ff4c4c; }
+    #cookie-consent button.reject:hover { background:#e03b3b; }
+
+    /* ===== Modal Popup ===== */
+    #domain-modal {
+      display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(5, 12, 22, 0.88); backdrop-filter:blur(8px);
+      justify-content:center; align-items:center; z-index:3000;
+      padding:20px;
+    }
+    #domain-modal img {
+      max-width:90%; max-height:82vh; border-radius:12px;
+      border: 2px solid rgba(0,191,255,0.4);
+      box-shadow:0 10px 40px rgba(0,191,255,0.4);
+      object-fit:contain;
+    }
+    #domain-modal span {
+      position:absolute; top:25px; right:35px; font-size:2.5rem;
+      color:#fff; cursor:pointer; line-height:1; transition:color 0.2s;
+    }
+    #domain-modal span:hover { color:#00bfff; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">Odean Aerospace</div>
+  <nav>
+    <ul>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#domains">Domains</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="search-bar">
+    <input type="text" id="domain-search" placeholder="Search domains...">
+  </div>
+</header>
+
+<!-- Video Sections -->
+<section class="fade-section active" id="runway">
+  <video autoplay muted loop playsinline>
+    <source src="videos/runway1.mp4" type="video/mp4">
+  </video>
+  <div class="overlay">
+    <h1>Odean Aerospace</h1>
+    <p>Engineering the future of flight &mdash; supersonic innovation and missile technology.</p>
+  </div>
+</section>
+
+<section class="fade-section" id="takeoff">
+  <video autoplay muted loop playsinline>
+    <source src="videos/takeoff.mp4.mp4" type="video/mp4">
+  </video>
+  <div class="overlay">
+    <h1>Supersonic Jets</h1>
+    <p>Experience precision and speed with our aerospace solutions.</p>
+  </div>
+</section>
+
+<section class="fade-section" id="clouds">
+  <video autoplay muted loop playsinline>
+    <source src="videos/clouds.mp4.mp4" type="video/mp4">
+  </video>
+  <div class="overlay">
+    <h1>Above the Clouds</h1>
+    <p>Exploring new altitudes with advanced aerodynamics and AI.</p>
+  </div>
+</section>
+
+<section class="fade-section" id="missile1">
+  <video autoplay muted loop playsinline>
+    <source src="videos/missile1.mp4.mp4" type="video/mp4">
+  </video>
+  <div class="overlay">
+    <h1>Missile Systems</h1>
+    <p>GSLV, BrahMos and supersonic missile technologies for defense &amp; aerospace.</p>
+  </div>
+</section>
+
+<section class="fade-section" id="missile2">
+  <video autoplay muted loop playsinline>
+    <source src="videos/missile2.mp4.mp4" type="video/mp4">
+  </video>
+  <div class="overlay">
+    <h1>Beyond the Horizon</h1>
+    <p>Pushing the limits of aerospace engineering and supersonic innovation.</p>
+  </div>
+</section>
+
+<!-- Projects -->
+<section class="feature" id="projects">
+  <h2>Projects &amp; Products</h2>
+  <p>From commercial supersonic aircraft to defense missiles, our projects lead in speed, efficiency, and cutting-edge aerospace technology.</p>
+</section>
+
+<!-- Domains Section -->
+<section class="feature" id="domains">
+  <h2>Our Aerospace Projects &amp; Domains</h2>
+  <div class="domains-grid">
+    <!-- Domain 1 -->
+    <div class="domain-item" data-image="images/aircraft.jpg">
+      <img src="images/aircraft.jpg" alt="Commercial Aircraft">
+      <h3>Commercial Aircraft</h3>
+      <p>Supersonic passenger aircraft with AI-driven controls.</p>
+    </div>
+    <!-- Domain 2 -->
+    <div class="domain-item" data-image="images/missile.jpg">
+      <img src="images/missile.jpg" alt="Missile Systems">
+      <h3>Missile Systems</h3>
+      <p>GSLV, BrahMos &amp; supersonic defense missile projects.</p>
+    </div>
+    <!-- Domain 3 -->
+    <div class="domain-item" data-image="images/sattelite.jpg">
+      <img src="images/sattelite.jpg" alt="Satellite Technology">
+      <h3>Satellite Technology</h3>
+      <p>Advanced satellite systems and orbital projects.</p>
+    </div>
+    <!-- Domain 4 -->
+    <div class="domain-item" data-image="images/missile2.jpg">
+      <img src="images/missile2.jpg" alt="Aerospace R&D">
+      <h3>Aerospace R&amp;D</h3>
+      <p>Research on propulsion, AI-assisted flight control, and aerospace innovations.</p>
+    </div>
+    <!-- Domain 5 -->
+    <div class="domain-item" data-image="images/communication.jpg">
+      <img src="images/communication.jpg" alt="Communication Systems">
+      <h3>Communication Systems</h3>
+      <p>On-orbit data transfer, optical &amp; RF communications.</p>
+    </div>
+    <!-- Domain 6 -->
+    <div class="domain-item" data-image="images/testing.jpg">
+      <img src="images/testing.jpg" alt="Testing & Validation">
+      <h3>Testing &amp; Validation</h3>
+      <p>Full-spectrum testing for high-complexity aerospace components.</p>
+    </div>
+  </div>
+</section>
+
+<!-- About Us -->
+<section class="feature" id="about">
+  <h2>About Us</h2>
+  <p>Odean Aerospace is committed to next-gen flight, supersonic jets, and missile systems. Innovation and precision at every step.</p>
+</section>
+
+<!-- Footer -->
+<footer id="contact">
+  <h2>Contact Us</h2>
+  <p>Email: <a href="mailto:contact@odeanaerospace.com">contact@odeanaerospace.com</a></p>
+  <p>Phone: +1 (555) 123-4567</p>
+  <p>Address: 1200 Orbit Avenue, Space City</p>
+  <div id="social">
+    <p>Follow us: <a href="#">LinkedIn</a> | <a href="#">Twitter</a> | <a href="#">Instagram</a></p>
+  </div>
+  <p class="copyright">&copy; 2025 Odean Aerospace. All rights reserved.</p>
+</footer>
+
+<!-- Cookie Consent -->
+<div id="cookie-consent">
+  <p>We use cookies to improve your experience. Do you accept cookies?</p>
+  <button class="accept">Accept</button>
+  <button class="reject">Reject</button>
+</div>
+
+<!-- Modal -->
+<div id="domain-modal">
+  <span>&times;</span>
+  <img src="" alt="Enlarged Aerospace Domain">
+</div>
+
+<script>
+  // ===== Smooth fade-in/fade-out on scroll =====
+  const sections = document.querySelectorAll(".fade-section");
+  window.addEventListener("scroll", () => {
+    const scrollPos = window.scrollY;
+    const windowHeight = window.innerHeight;
+    sections.forEach(section => {
+      const top = section.offsetTop;
+      const height = section.offsetHeight;
+      if(scrollPos + windowHeight/2 > top && scrollPos < top + height){
+        section.classList.add("active");
+      } else {
+        section.classList.remove("active");
+      }
+    });
+  });
+
+  // Fade-in domains
+  const domainItems = document.querySelectorAll(".domain-item");
+  function checkDomains(){
+    const triggerBottom = window.innerHeight * 0.9;
+    domainItems.forEach(item => {
+      const top = item.getBoundingClientRect().top;
+      if(top < triggerBottom) item.classList.add("show");
+    });
+  }
+  window.addEventListener("scroll", checkDomains);
+  window.addEventListener("load", checkDomains);
+
+  // Cookie consent
+  const cookie = document.getElementById("cookie-consent");
+  const acceptBtn = cookie.querySelector(".accept");
+  const rejectBtn = cookie.querySelector(".reject");
+  window.addEventListener("load", () => {
+    if(!localStorage.getItem("cookiesAccepted") && !localStorage.getItem("cookiesRejected")){
+      cookie.classList.add("show");
+    }
+  });
+  acceptBtn.addEventListener("click", () => {
+    localStorage.setItem("cookiesAccepted", "true");
+    cookie.classList.remove("show");
+  });
+  rejectBtn.addEventListener("click", () => {
+    localStorage.setItem("cookiesRejected", "true");
+    cookie.classList.remove("show");
+  });
+
+  // Modal popup for images
+  const modal = document.getElementById("domain-modal");
+  const modalImg = modal.querySelector("img");
+  const modalClose = modal.querySelector("span");
+  domainItems.forEach(item => {
+    item.addEventListener("click", () => {
+      modal.style.display = "flex";
+      modalImg.src = item.dataset.image;
+      modalImg.alt = item.querySelector("h3").innerText;
+    });
+  });
+  modalClose.addEventListener("click", () => { modal.style.display = "none"; });
+  modal.addEventListener("click", (e) => { if(e.target === modal) modal.style.display = "none"; });
+
+  // Search functionality
+  const searchInput = document.getElementById("domain-search");
+  if(searchInput){
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      domainItems.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        if(!query || text.includes(query)){
+          item.style.display = "block";
+        } else {
+          item.style.display = "none";
+        }
+      });
+    });
+  }
+</script>
+</body>
+</html>
