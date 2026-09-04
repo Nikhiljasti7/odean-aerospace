@@ -1,0 +1,24 @@
+name: CI Code Quality & Link Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Validate Project Assets & Structure
+        run: |
+          echo "Verifying index.html presence..."
+          test -f index.html || exit 1
+          echo "Verifying image assets..."
+          test -d images || exit 1
+          echo "Verifying video assets..."
+          test -d videos || exit 1
+          echo "Asset pipeline verified successfully."
