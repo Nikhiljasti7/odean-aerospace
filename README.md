@@ -30,6 +30,9 @@ The platform provides a cinematic, immersive experience with high-definition vid
   - **Aerospace R&D**: Next-generation hypersonic propulsion, thermal shielding, and AI flight mechanics.
   - **Communication Systems**: Deep-space optical and RF high-bandwidth transmission arrays.
   - **Testing & Validation**: Full-spectrum environmental, aerodynamic, and structural stress validation.
+- 📊 **Live Telemetry & HUD Stat Counters**: Animated counter interpolation for Mach speed, orbital insertions, defense intercept metrics, and autonomous test flight hours.
+- 🔊 **Atmospheric Audio Ambience Engine**: Integrated Web Audio API sound generator synthesizing low-frequency supersonic jet rumble and cockpit atmospheric frequencies.
+- 📝 **Mission Consultation & Telemetry Transmit**: Interactive dossier submission interface with instant client-side validation and toast notifications.
 - 🔍 **Interactive Search & Filtering**: Instant search across all aerospace domains.
 - 🖼️ **Interactive Modal Viewer**: High-definition asset inspection modal for every engineering domain.
 - 📱 **Fully Responsive & Cyber-Aesthetic Design**: Glassmorphism navigation, neon cyan accents, and mobile-ready layouts.
