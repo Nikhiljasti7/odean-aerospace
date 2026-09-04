@@ -207,6 +207,28 @@
     #cookie-consent button.reject { background:#ff4c4c; }
     #cookie-consent button.reject:hover { background:#e03b3b; }
 
+    /* ===== Floating HUD Control Widget ===== */
+    .hud-controls {
+      position: fixed; bottom: 25px; right: 25px; z-index: 1500;
+      display: flex; gap: 10px; align-items: center;
+    }
+    .hud-btn {
+      background: rgba(15, 35, 63, 0.85); backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 191, 255, 0.4); color: #00ffff;
+      padding: 10px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      font-family: inherit;
+    }
+    .hud-btn:hover {
+      background: rgba(0, 191, 255, 0.2); border-color: #00ffff;
+      box-shadow: 0 0 15px rgba(0, 191, 255, 0.4); transform: translateY(-2px);
+    }
+    .hud-btn.active {
+      background: #00bfff; color: #0a1a2f; border-color: #00ffff;
+      box-shadow: 0 0 20px rgba(0, 191, 255, 0.6);
+    }
+
     /* ===== Modal Popup ===== */
     #domain-modal {
       display:none; position:fixed; top:0; left:0; width:100%; height:100%;
@@ -393,6 +415,16 @@
   <p class="copyright">&copy; 2025 Odean Aerospace. All rights reserved.</p>
 </footer>
 
+<!-- HUD Floating Controls -->
+<div class="hud-controls">
+  <button id="btn-audio" class="hud-btn" title="Toggle Atmospheric Engine Ambience">
+    <span class="hud-icon">🔊</span> <span class="hud-text">Audio: Off</span>
+  </button>
+  <button id="btn-playback" class="hud-btn" title="Pause/Play Background Video">
+    <span class="hud-icon">⏸️</span> <span class="hud-text">Video</span>
+  </button>
+</div>
+
 <!-- Cookie Consent -->
 <div id="cookie-consent">
   <p>We use cookies to improve your experience. Do you accept cookies?</p>
@@ -502,6 +534,88 @@
   });
   modalClose.addEventListener("click", () => { modal.style.display = "none"; });
   modal.addEventListener("click", (e) => { if(e.target === modal) modal.style.display = "none"; });
+
+  // Web Audio Synthesizer for Atmospheric Ambience
+  let audioCtx = null;
+  let osc1 = null;
+  let osc2 = null;
+  let gainNode = null;
+  let isAudioPlaying = false;
+  const audioBtn = document.getElementById("btn-audio");
+
+  function initAtmosphericAudio() {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContext();
+
+      // Low frequency jet turbine rumble
+      osc1 = audioCtx.createOscillator();
+      osc1.type = "sine";
+      osc1.frequency.setValueAtTime(55, audioCtx.currentTime); // 55Hz low drone
+
+      // High altitude atmospheric hum
+      osc2 = audioCtx.createOscillator();
+      osc2.type = "triangle";
+      osc2.frequency.setValueAtTime(110, audioCtx.currentTime);
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(180, audioCtx.currentTime);
+
+      gainNode = audioCtx.createGain();
+      gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      osc1.start();
+      osc2.start();
+    }
+  }
+
+  if (audioBtn) {
+    audioBtn.addEventListener("click", () => {
+      initAtmosphericAudio();
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+      if (!isAudioPlaying) {
+        gainNode.gain.setTargetAtTime(0.12, audioCtx.currentTime, 0.4);
+        isAudioPlaying = true;
+        audioBtn.classList.add("active");
+        audioBtn.querySelector(".hud-text").textContent = "Audio: On";
+        audioBtn.querySelector(".hud-icon").textContent = "🎵";
+      } else {
+        gainNode.gain.setTargetAtTime(0.0001, audioCtx.currentTime, 0.3);
+        isAudioPlaying = false;
+        audioBtn.classList.remove("active");
+        audioBtn.querySelector(".hud-text").textContent = "Audio: Off";
+        audioBtn.querySelector(".hud-icon").textContent = "🔇";
+      }
+    });
+  }
+
+  // Background Video Play/Pause Control
+  const playbackBtn = document.getElementById("btn-playback");
+  let isVideoPlaying = true;
+  if (playbackBtn) {
+    playbackBtn.addEventListener("click", () => {
+      const videos = document.querySelectorAll(".fade-section video");
+      isVideoPlaying = !isVideoPlaying;
+      videos.forEach(v => {
+        if (isVideoPlaying) {
+          v.play();
+        } else {
+          v.pause();
+        }
+      });
+      playbackBtn.classList.toggle("active", !isVideoPlaying);
+      playbackBtn.querySelector(".hud-icon").textContent = isVideoPlaying ? "⏸️" : "▶️";
+      playbackBtn.querySelector(".hud-text").textContent = isVideoPlaying ? "Playing" : "Paused";
+    });
+  }
 
   // Search functionality
   const searchInput = document.getElementById("domain-search");
