@@ -1,9 +1,11 @@
-﻿# Odean Aerospace 🚀
+# Odean Aerospace 🚀
 
+[![Live Website](https://img.shields.io/badge/Live_Website-Visit_Odean_Aerospace-00bfff?style=for-the-badge&logo=safari&logoColor=white)](https://nikhiljasti7.github.io/odean-aerospace/)
 [![GitHub stars](https://img.shields.io/github/stars/Nikhiljasti7/odean-aerospace?style=social)](https://github.com/Nikhiljasti7/odean-aerospace)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Status: Active](https://img.shields.io/badge/Status-Active-brightgreen.svg)]()
 
+> 🔗 **Live Website:** [https://nikhiljasti7.github.io/odean-aerospace/](https://nikhiljasti7.github.io/odean-aerospace/)  
 > **Engineering the future of flight &mdash; supersonic innovation, satellite technology, and advanced defense systems.**
 
 ---
@@ -11,6 +13,8 @@
 ## 🌌 Overview
 
 **Odean Aerospace** is a modern, high-impact aerospace web application designed to showcase cutting-edge advancements across commercial aviation, orbital mechanics, defense missile architecture, and deep-space communication systems.
+
+Experience the platform live at **[nikhiljasti7.github.io/odean-aerospace](https://nikhiljasti7.github.io/odean-aerospace/)**.
 
 The platform provides a cinematic, immersive experience with high-definition video backgrounds, scroll-driven transitions, domain breakdowns, and interactive modal inspections.
 
@@ -58,6 +62,9 @@ odean-aerospace/
 ---
 
 ## 🚀 Getting Started
+
+### View Live in Browser
+Open **[https://nikhiljasti7.github.io/odean-aerospace/](https://nikhiljasti7.github.io/odean-aerospace/)** on any desktop or mobile browser.
 
 ### Local Setup
 1. Clone the repository:
